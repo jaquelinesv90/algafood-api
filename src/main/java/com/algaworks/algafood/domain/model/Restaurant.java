@@ -3,6 +3,7 @@ package com.algaworks.algafood.domain.model;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -12,6 +13,7 @@ public class Restaurant {
 	@Id
 	private Long id;
 		
+	@Column(name = "name", length = 30)
 	private String name;
 	
 	private BigDecimal shippingTax;
