@@ -15,7 +15,7 @@ public class KitchenRegister {
 	@PersistenceContext
 	private EntityManager manager;
 	
-	public List<Kitchen> listar(){
+	public List<Kitchen> list(){
 		return manager.createQuery("from kitchen", Kitchen.class).getResultList();
 		
 	}
