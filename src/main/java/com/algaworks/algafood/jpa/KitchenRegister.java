@@ -19,5 +19,9 @@ public class KitchenRegister {
 		return manager.createQuery("from kitchen", Kitchen.class).getResultList();
 		
 	}
+	
+	public Kitchen toAdd(Kitchen kitchen) {
+		return manager.merge(kitchen);
+	}
 
 }
