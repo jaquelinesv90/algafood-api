@@ -1,7 +1,5 @@
 package com.algaworks.algafood.jpa;
 
-import java.util.List;
-
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
@@ -9,18 +7,16 @@ import org.springframework.context.ApplicationContext;
 import com.algaworks.algafood.AlgafoodApiApplication;
 import com.algaworks.algafood.domain.model.Kitchen;
 
-//ConsultaCozinhaMain
-public class QueryKitchenMain {
-	
+public class SearchKitchenMain {
+
 	public static void main(String[] args) {
-		ApplicationContext  applicationContext = new SpringApplicationBuilder(AlgafoodApiApplication.class)
-			.web(WebApplicationType.NONE)
-			.run(args);
-		
+		ApplicationContext applicationContext = new SpringApplicationBuilder(AlgafoodApiApplication.class)
+				.web(WebApplicationType.NONE).run(args);
+
 		KitchenRegister kitchenRegister = applicationContext.getBean(KitchenRegister.class);
-		
-		List<Kitchen> kitchens = kitchenRegister.list();
-		
-		kitchens.forEach(kitchen -> System.out.println(kitchen.getName()));
+
+		Kitchen kitchen = kitchenRegister.find(1L);
+
+		System.out.println(kitchen.getName());
 	}
 }
