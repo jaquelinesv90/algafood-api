@@ -6,16 +6,18 @@ import org.springframework.context.ApplicationContext;
 
 import com.algaworks.algafood.AlgafoodApiApplication;
 import com.algaworks.algafood.domain.model.Kitchen;
+import com.algaworks.algafood.domain.repository.KitchenRepository;
 
+//BuscarCozinhaMain
 public class SearchKitchenMain {
 
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = new SpringApplicationBuilder(AlgafoodApiApplication.class)
 				.web(WebApplicationType.NONE).run(args);
 
-		KitchenRegister kitchenRegister = applicationContext.getBean(KitchenRegister.class);
+		KitchenRepository kitchenRepository = applicationContext.getBean(KitchenRepository.class);
 
-		Kitchen kitchen = kitchenRegister.find(1L);
+		Kitchen kitchen = kitchenRepository.findById(1L);
 
 		System.out.println(kitchen.getName());
 	}

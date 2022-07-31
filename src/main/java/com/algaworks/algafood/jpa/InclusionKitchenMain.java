@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 
 import com.algaworks.algafood.AlgafoodApiApplication;
 import com.algaworks.algafood.domain.model.Kitchen;
+import com.algaworks.algafood.domain.repository.KitchenRepository;
 
 /**
  * @author jaqueline Lmk
@@ -13,24 +14,21 @@ import com.algaworks.algafood.domain.model.Kitchen;
  */
 
 // InclusaoCozinhaMain
-public class IncludeKitchenMain {
+public class InclusionKitchenMain {
 	
 	public static void main(String[] args) {
 		ApplicationContext  applicationContext = new SpringApplicationBuilder(AlgafoodApiApplication.class)
 			.web(WebApplicationType.NONE)
 			.run(args);
-		KitchenRegister kitchenRegister = applicationContext.getBean(KitchenRegister.class);
+		KitchenRepository kitchenRepository = applicationContext.getBean(KitchenRepository.class);
 		
-		Kitchen kitchen1 = new Kitchen();
-		kitchen1.setName("German");
+		Kitchen kitchen = new Kitchen();
+		kitchen.setId(1L);
+		kitchen.setName("German");
 		
-		Kitchen kitchen2 = new Kitchen();
-		kitchen2.setName("Japanese");
+		kitchenRepository.add(kitchen);
 		
-		kitchenRegister.toAdd(kitchen1);
-		kitchenRegister.toAdd(kitchen2);
 		
-		System.out.printf("teste",kitchen1.getId(), kitchen1.getName());
 	}
 
 }
