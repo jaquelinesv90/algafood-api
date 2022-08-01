@@ -11,6 +11,7 @@ Technologies used in this application.
 <li>JPA-Hibernate</li>
 <li>Mysql</li>
 <li>Rest</li>
+<li>DDD - Driven Domain Design </li>
 
 ER Model
 
