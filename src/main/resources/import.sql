@@ -1,5 +1,6 @@
-insert into kitchen(name) values('Thai');
-insert into kitchen(name) values('Brazilian');
+insert into kitchen(id,name) values(1,'Thai');
+insert into kitchen(id,name) values(2,'Brazilian');
 
-insert into restaurant(id,name,shipping_tax) VALUES(1,'Madero',12.50);
-insert into restaurant(id,name,shipping_tax) VALUES(2,'CurryWurst', 5.75);
+insert into restaurant(id,name,shipping_tax,kitchen_id) VALUES(1,'Madero',12.50,1);
+insert into restaurant(id,name,shipping_tax,kitchen_id) VALUES(2,'CurryWurst', 5.75,1);
+insert into restaurant(id,name,shipping_tax,kitchen_id) VALUES(3,'Casa da feijoada', 5.75,2);

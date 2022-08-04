@@ -20,6 +20,7 @@ public class ChangeKitchenMain {
 		ApplicationContext  applicationContext = new SpringApplicationBuilder(AlgafoodApiApplication.class)
 			.web(WebApplicationType.NONE)
 			.run(args);
+		
 		KitchenRepository kitchenRepository = applicationContext.getBean(KitchenRepository.class);
 		
 		Kitchen kitchen1 = new Kitchen();
