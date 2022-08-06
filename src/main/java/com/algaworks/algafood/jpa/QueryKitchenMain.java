@@ -18,7 +18,7 @@ public class QueryKitchenMain {
 			.web(WebApplicationType.NONE)
 			.run(args);
 		
-		KitchenRepository kitchens = applicationContext.getBean(KitchenRepository.class);
+		var kitchens = applicationContext.getBean(KitchenRepository.class);
 		
 		List<Kitchen> allKitchens = kitchens.all();
 		

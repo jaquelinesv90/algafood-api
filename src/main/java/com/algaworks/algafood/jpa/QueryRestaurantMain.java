@@ -17,7 +17,7 @@ public class QueryRestaurantMain {
 		.web(WebApplicationType.NONE)
 		.run(args);
 		
-		RestaurantRepository restaurantRepository = applicationContext.getBean(RestaurantRepository.class);
+		var restaurantRepository = applicationContext.getBean(RestaurantRepository.class);
 		
 		List<Restaurant> allRestaurants = restaurantRepository.all();
 
