@@ -2,35 +2,39 @@ package com.algaworks.algafood.infrasctructure.repository;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.transaction.annotation.Transactional;
+
 import com.algaworks.algafood.domain.model.PaymentWay;
 import com.algaworks.algafood.domain.repository.PaymentWayRepository;
 
 public class PaymentWayRepositoryImpl implements PaymentWayRepository {
 
-	 
+	@PersistenceContext
+	private EntityManager manager;
 	
 	@Override
 	public List<PaymentWay> all() {
-	
-		return null;
+		return manager.createQuery("from PaymentWay", PaymentWay.class).getResultList();
 	}
 
 	@Override
 	public PaymentWay findById(Long id) {
-		
-		return null;
+		return manager.find(PaymentWay.class, id);
 	}
 
 	@Override
+	@Transactional
 	public PaymentWay add(PaymentWay payment) {
-		
-		return null;
+		return manager.merge(payment);
 	}
 
 	@Override
-	public void remove(PaymentWay paymentWay) {
-		
-		
+	@Transactional
+	public void remove(PaymentWay payment) {
+		payment = findById(payment.getId());
+		manager.remove(payment);
 	}
-
 }

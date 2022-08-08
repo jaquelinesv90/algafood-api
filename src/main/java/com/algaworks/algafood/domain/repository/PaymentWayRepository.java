@@ -9,6 +9,6 @@ public interface PaymentWayRepository {
 	List<PaymentWay> all();
 	PaymentWay findById(Long id);
 	PaymentWay add(PaymentWay payment);
-	void remove(PaymentWay paymentWay);
+	void remove(PaymentWay payment);
 	
 }

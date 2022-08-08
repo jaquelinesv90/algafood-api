@@ -8,6 +8,6 @@ public interface PermissionRepository {
 	
 	List<Permission> all();
 	Permission findById(Long id);
-	Permission add(Permission kitchen);
-	void remove(Permission kitchen);
+	Permission add(Permission permission);
+	void remove(Permission permission);
 }

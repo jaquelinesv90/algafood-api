@@ -39,5 +39,4 @@ public class KitchenRepositoryImpl implements KitchenRepository{
 		kitchen = findById(kitchen.getId());
 		manager.remove(kitchen);
 	}
-	
 }
