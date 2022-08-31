@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table
+@Table(name= "payment_way")
 public class PaymentWay {
 	
 	@EqualsAndHashCode.Include
