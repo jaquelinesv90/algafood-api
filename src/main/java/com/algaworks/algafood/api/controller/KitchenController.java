@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.controller;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -47,4 +48,18 @@ public class KitchenController {
 	public Kitchen add(@RequestBody Kitchen kitchen) {
 		return repository.add(kitchen);
 	}
+	
+	public ResponseEntity<Kitchen> update(@PathVariable Long kitchenId, @RequestBody Kitchen kitchen){
+		Kitchen currentKitchen = repository.findById(kitchenId);
+		
+		if(currentKitchen != null) {
+			//currentKitchen.setName(kitchen.getName());
+			BeanUtils.copyProperties(kitchen, currentKitchen, "id");
+			
+			currentKitchen = repository.save(currentKitchen);
+			return ResponseEntity.ok(currentKitchen);
+		}
+		return ResponseEntity.notFound().build();
+	}
+	
 }
