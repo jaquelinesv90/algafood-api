@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ import com.algaworks.algafood.domain.model.Kitchen;
 import com.algaworks.algafood.domain.repository.KitchenRepository;
 
 @RestController
-@RequestMapping(value = "/kitchens", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/kitchens")
 public class KitchenController {
 	
 	@Autowired
@@ -47,7 +47,7 @@ public class KitchenController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Kitchen add(@RequestBody Kitchen kitchen) {
-		return repository.add(kitchen);
+		return repository.save(kitchen);
 	}
 	
 	public ResponseEntity<Kitchen> update(@PathVariable Long kitchenId, @RequestBody Kitchen kitchen){
@@ -66,7 +66,18 @@ public class KitchenController {
 	@DeleteMapping("/{kitchenId}")
 	public ResponseEntity<Kitchen> delete(@PathVariable Long kitchenId){
 		Kitchen kitchen = repository.findById(kitchenId);
+		try {
 		
+			if(kitchen != null) {
+				repository.remove(kitchen);
+				return ResponseEntity.noContent().build();
+			}
+			
+		 return ResponseEntity.notFound().build();
+		 
+		}catch(DataIntegrityViolationException e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+		}
 	}
 	
 }

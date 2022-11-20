@@ -29,7 +29,7 @@ public class KitchenRepositoryImpl implements KitchenRepository{
 	
 	@Override
 	@Transactional
-	public Kitchen add(Kitchen kitchen) {
+	public Kitchen save(Kitchen kitchen) {
 		return manager.merge(kitchen);
 	}
 	

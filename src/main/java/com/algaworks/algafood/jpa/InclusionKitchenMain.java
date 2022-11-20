@@ -26,7 +26,7 @@ public class InclusionKitchenMain {
 		kitchen.setId(1L);
 		kitchen.setName("German");
 		
-		kitchenRepository.add(kitchen);
+		kitchenRepository.save(kitchen);
 		
 		
 	}

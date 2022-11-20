@@ -9,7 +9,6 @@ public interface KitchenRepository {
 	
 	List<Kitchen> all();
 	Kitchen findById(Long id);
-	Kitchen add(Kitchen kitchen);
 	Kitchen save(Kitchen kitchen);
 	void remove(Kitchen kitchen);
 	

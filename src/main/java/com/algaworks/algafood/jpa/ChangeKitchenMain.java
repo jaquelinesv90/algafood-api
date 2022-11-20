@@ -29,8 +29,8 @@ public class ChangeKitchenMain {
 		Kitchen kitchen2 = new Kitchen();
 		kitchen2.setName("Japanese");
 		
-		kitchenRepository.add(kitchen1);
-		kitchenRepository.add(kitchen2);
+		kitchenRepository.save(kitchen1);
+		kitchenRepository.save(kitchen2);
 		
 		System.out.printf("teste",kitchen1.getId(), kitchen1.getName());
 	}
