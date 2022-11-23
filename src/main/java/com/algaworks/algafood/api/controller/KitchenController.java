@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.domain.model.Kitchen;
 import com.algaworks.algafood.domain.repository.KitchenRepository;
+import com.algaworks.algafood.domain.service.KitchenRegisterService;
 
 @RestController
 @RequestMapping(value = "/kitchens")
@@ -25,6 +26,9 @@ public class KitchenController {
 	
 	@Autowired
 	private KitchenRepository repository;
+	
+	@Autowired
+	private KitchenRegisterService service;
 	
 	@GetMapping
 	public List<Kitchen> all(){
@@ -47,7 +51,7 @@ public class KitchenController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Kitchen add(@RequestBody Kitchen kitchen) {
-		return repository.save(kitchen);
+		return service.save(kitchen);
 	}
 	
 	public ResponseEntity<Kitchen> update(@PathVariable Long kitchenId, @RequestBody Kitchen kitchen){
