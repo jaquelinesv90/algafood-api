@@ -10,6 +10,6 @@ public interface KitchenRepository {
 	List<Kitchen> all();
 	Kitchen findById(Long id);
 	Kitchen save(Kitchen kitchen);
-	void remove(Kitchen kitchen);
+	void remove(Long id);
 	
 }

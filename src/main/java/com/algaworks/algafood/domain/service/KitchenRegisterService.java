@@ -15,5 +15,9 @@ public class KitchenRegisterService {
 	public Kitchen save(Kitchen kitchen) {
 		return repository.save(kitchen);
 	}
+	
+	public void remove(Long id) {
+		repository.remove(id);
+	}
 
 }
