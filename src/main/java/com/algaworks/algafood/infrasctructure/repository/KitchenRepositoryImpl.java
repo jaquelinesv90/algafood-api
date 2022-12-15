@@ -36,7 +36,7 @@ public class KitchenRepositoryImpl implements KitchenRepository{
 	
 	@Override
 	@Transactional
-	public void remove(Long id) {
+	public void remove(Long id) throws EmptyResultDataAccessException{
 		Kitchen kitchen = findById(id);
 		
 		if(kitchen == null) {
