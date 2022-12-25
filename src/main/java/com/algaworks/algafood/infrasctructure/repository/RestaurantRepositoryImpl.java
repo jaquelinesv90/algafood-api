@@ -29,7 +29,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepository{
 
 	@Override
 	@Transactional
-	public Restaurant add(Restaurant restaurant) {
+	public Restaurant save(Restaurant restaurant) {
 		return manager.merge(restaurant);
 	}
 

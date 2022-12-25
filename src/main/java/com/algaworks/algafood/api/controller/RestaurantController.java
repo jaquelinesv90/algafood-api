@@ -2,12 +2,14 @@ package com.algaworks.algafood.api.controller;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,7 +48,7 @@ public class RestaurantController {
 	@PostMapping
 	public ResponseEntity<?> add(@RequestBody Restaurant restaurant){
 		try {
-			restaurant = service.add(restaurant);
+			restaurant = service.save(restaurant);
 			
 			return ResponseEntity.status(HttpStatus.CREATED)
 					.body(restaurant);
@@ -54,5 +56,21 @@ public class RestaurantController {
 			return ResponseEntity.badRequest()
 					.body(e.getMessage());
 		}
+	}
+	
+	@PutMapping("/{restaurantId}")
+	public ResponseEntity<Restaurant> update(@PathVariable Long restaurantId, @RequestBody Restaurant restaurant){
+		Restaurant currentRestaurant = repository.findById(restaurantId);	
+		
+		if(currentRestaurant != null) {
+			// o id aqui não será copiado, pois copia de um para o outro e aí copiaria o id nulo
+			BeanUtils.copyProperties(restaurant, currentRestaurant, "id");
+		
+			currentRestaurant = service.save(currentRestaurant);
+			return ResponseEntity.ok(currentRestaurant);
+		}
+		
+		return ResponseEntity.notFound().build();
+	
 	}
 }

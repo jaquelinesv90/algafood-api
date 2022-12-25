@@ -18,7 +18,7 @@ public class RestaurantRegisterService {
 	@Autowired
 	private KitchenRepository kitchenRepository;
 	
-	public Restaurant add(Restaurant restaurant) throws EntityNotFoundException {
+	public Restaurant save(Restaurant restaurant) throws EntityNotFoundException {
 		Long kitchenId = restaurant.getKitchen().getId();
 		Kitchen kitchen = kitchenRepository.findById(kitchenId);
 		
@@ -27,6 +27,6 @@ public class RestaurantRegisterService {
 					String.format("It doesn't exist kitchen with id %d", kitchenId));
 		}
 		
-		return restaurantRepository.add(restaurant);
+		return restaurantRepository.save(restaurant);
 	}
 }
