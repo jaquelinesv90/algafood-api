@@ -59,18 +59,23 @@ public class RestaurantController {
 	}
 	
 	@PutMapping("/{restaurantId}")
-	public ResponseEntity<Restaurant> update(@PathVariable Long restaurantId, @RequestBody Restaurant restaurant){
-		Restaurant currentRestaurant = repository.findById(restaurantId);	
-		
-		if(currentRestaurant != null) {
-			// o id aqui não será copiado, pois copia de um para o outro e aí copiaria o id nulo
-			BeanUtils.copyProperties(restaurant, currentRestaurant, "id");
-		
-			currentRestaurant = service.save(currentRestaurant);
-			return ResponseEntity.ok(currentRestaurant);
+	public ResponseEntity<?> update(@PathVariable Long restaurantId, @RequestBody Restaurant restaurant){
+		try {
+			Restaurant currentRestaurant = repository.findById(restaurantId);	
+			
+			if(currentRestaurant != null) {
+				// o id aqui não será copiado, pois copia de um para o outro e aí copiaria o id nulo
+				BeanUtils.copyProperties(restaurant, currentRestaurant, "id");
+			
+				currentRestaurant = service.save(currentRestaurant);
+				return ResponseEntity.ok(currentRestaurant);
+			}
+			
+			return ResponseEntity.notFound().build();
+			
+		}catch(EntityNotFoundException e) {
+			return ResponseEntity.badRequest()
+					.body(e.getMessage());
 		}
-		
-		return ResponseEntity.notFound().build();
-	
 	}
 }
