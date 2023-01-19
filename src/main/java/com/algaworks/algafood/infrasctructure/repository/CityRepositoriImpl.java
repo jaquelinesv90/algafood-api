@@ -29,7 +29,7 @@ public class CityRepositoriImpl implements CityRepository{
 
 	@Override
 	@Transactional
-	public City add(City city) {
+	public City save(City city) {
 		return manager.merge(city);
 	}
 
