@@ -29,7 +29,7 @@ public class PaymentWayRepositoryImpl implements PaymentWayRepository {
 
 	@Override
 	@Transactional
-	public PaymentWay add(PaymentWay payment) {
+	public PaymentWay save(PaymentWay payment) {
 		return manager.merge(payment);
 	}
 
