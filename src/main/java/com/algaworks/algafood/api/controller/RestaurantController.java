@@ -22,6 +22,7 @@ import com.algaworks.algafood.domain.model.Restaurant;
 import com.algaworks.algafood.domain.repository.RestaurantRepository;
 import com.algaworks.algafood.domain.service.RestaurantRegisterService;
 import com.algaworks.domain.exception.EntityNotFoundException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping(value = "/restaurants")
@@ -101,10 +102,19 @@ public class RestaurantController {
 	// esse campo field vai representar o nome
 	// isso é feito para atribuir o valor do field no objeto Restaurantdestino o valor da propriedade 
 	private void merge(Map<String, Object> originField, Restaurant destinyRestaurant) {
+		
+		//essa conversão é feita pois, ao digitar um numero gerava erro de Integer to Bigdecimal na taxa frete
+		ObjectMapper objectMapper = new ObjectMapper();
+		Restaurant originRestaurant = objectMapper.convertValue(originField, Restaurant.class);
+		
+		
 		originField.forEach((nomePropriedade, valorPropriedade) -> {
 			Field field = ReflectionUtils.findField(Restaurant.class,nomePropriedade);
+			field.setAccessible(true);
 			
-			System.out.println(nomePropriedade + "=" + valorPropriedade);
+			Object newValue = ReflectionUtils.getField(field, originRestaurant);
+			
+			System.out.println(nomePropriedade + "=" + valorPropriedade + " = " + newValue);
 			
 			ReflectionUtils.setField(field, destinyRestaurant, valorPropriedade);
 		});
