@@ -16,8 +16,8 @@ public class CityRegisterService {
 		return repository.save(city);
 	}
 	
-	public void remove(City city) {
-		repository.remove(city);
+	public void remove(Long id) {
+		repository.deleteById(id);
 	}
 	
 }

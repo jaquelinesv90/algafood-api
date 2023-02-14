@@ -23,7 +23,7 @@ public class KitchenRegisterService {
 	//uma classe de serviço não pode retornar um ResponseEntity,de forma alguma.
 	public void remove(Long id) {
 		try {
-			repository.remove(id);
+			repository.deleteById(id);
 		
 		}catch(EmptyResultDataAccessException e) {
 			e.printStackTrace();
