@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +35,15 @@ public class StateController {
 	
 	@GetMapping
 	public List<State> all(){
-		return repository.all();
+		return repository.findAll();
 	}
 	
 	@GetMapping("/{stateId}")
 	public ResponseEntity<State> findById(@PathVariable("stateId") Long id) {
-		State state = repository.findById(id);
+		Optional<State> state = repository.findById(id);
 		
-		if(state != null) {
-			return ResponseEntity.ok(state);
+		if(state.isEmpty() ) {
+			return ResponseEntity.ok(state.get());
 		}	
 		
 		return ResponseEntity.notFound().build();
@@ -56,15 +57,15 @@ public class StateController {
 	
 	@PutMapping("/{stateId}")
 	public ResponseEntity<State> update(@PathVariable Long stateId, @RequestBody State state){
-		State currentState = repository.findById(stateId);
+		Optional<State> currentState = repository.findById(stateId);
 		
 		if(currentState != null) {
 			
 			BeanUtils.copyProperties(state, currentState, "id");
 			
-			currentState = service.save(currentState);
+			State savedState = service.save(currentState.get());
 			
-			return ResponseEntity.ok(currentState);
+			return ResponseEntity.ok(savedState);
 		}
 		return ResponseEntity.notFound().build();
 		

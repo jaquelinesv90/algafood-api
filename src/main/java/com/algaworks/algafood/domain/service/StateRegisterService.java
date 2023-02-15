@@ -22,7 +22,7 @@ public class StateRegisterService {
 	
 	public void delete(Long id) {
 		try {
-			repository.remove(id);
+			repository.deleteById(id);
 			
 		}catch(EmptyResultDataAccessException e) {
 			e.printStackTrace();
