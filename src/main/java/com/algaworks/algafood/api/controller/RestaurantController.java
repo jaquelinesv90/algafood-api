@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.controller;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +37,15 @@ public class RestaurantController {
 	
 	@GetMapping
 	public List<Restaurant> all(){
-		return repository.all();
+		return repository.findAll();
 	}
 	
 	@GetMapping("/{restaurantId}")
 	public ResponseEntity<Restaurant> findById(@PathVariable("restaurantId") Long id){
-		Restaurant restaurant = repository.findById(id);
+		Optional<Restaurant> restaurant = repository.findById(id);
 		
-		if(restaurant != null) {
-			return ResponseEntity.ok(restaurant);
+		if(restaurant.isEmpty()) {
+			return ResponseEntity.ok(restaurant.get());
 		}
 		
 		return ResponseEntity.notFound().build();
@@ -66,14 +67,14 @@ public class RestaurantController {
 	@PutMapping("/{restaurantId}")
 	public ResponseEntity<?> update(@PathVariable Long restaurantId, @RequestBody Restaurant restaurant){
 		try {
-			Restaurant currentRestaurant = repository.findById(restaurantId);	
+			Optional<Restaurant> currentRestaurant = repository.findById(restaurantId);	
 			
 			if(currentRestaurant != null) {
 				// o id aqui não será copiado, pois copia de um para o outro e aí copiaria o id nulo
 				BeanUtils.copyProperties(restaurant, currentRestaurant, "id");
 			
-				currentRestaurant = service.save(currentRestaurant);
-				return ResponseEntity.ok(currentRestaurant);
+				Restaurant savedRestaurant = service.save(currentRestaurant.get());
+				return ResponseEntity.ok(savedRestaurant);
 			}
 			
 			return ResponseEntity.notFound().build();
@@ -87,15 +88,15 @@ public class RestaurantController {
 	@PatchMapping("/{restaurantId}")
 	public ResponseEntity<?> partialUpdate(@PathVariable Long restaurantId, 
 			@RequestBody Map<String, Object> fields){
-		Restaurant currentRestaurant = repository.findById(restaurantId);
+		Optional<Restaurant> currentRestaurant = repository.findById(restaurantId);
 		
-		if(currentRestaurant == null) {
+		if(currentRestaurant.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		merge(fields, currentRestaurant);
+		merge(fields, currentRestaurant.get());
 		
-		return update(restaurantId, currentRestaurant);
+		return update(restaurantId, currentRestaurant.get());
 	}
 
 	// reflectionUtils busca pra mim um campo(field) chamado nome, da classe Restaurant 
