@@ -2,6 +2,7 @@ package com.algaworks.algafood.domain.repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,9 @@ import com.algaworks.algafood.domain.model.Restaurant;
 public interface RestaurantRepository extends JpaRepository<Restaurant,Long>{
 	
 	List<Restaurant> findByShippingTaxBetween(BigDecimal initialFee, BigDecimal finalFee);
+	
+	//@Query(" from Restaurant where name like %:name% ")
+	Optional<Restaurant> findByFirstname(String name, Long id);
 	
 	List<Restaurant> findByNameContainingAndKitchenId(String name, Long kitchen);
 	

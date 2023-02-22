@@ -31,7 +31,7 @@ public class TesteController {
 	
 	@GetMapping("/kitchens/unique-by-name")
 	public Optional<Kitchen> kitchenByName(String name){
-		return kitchenRepository.findByName(name);
+		return null; //// kitchenRepository.findByFirstname(name);
 	}
 	
 	@GetMapping("/kitchen/exists")
@@ -46,7 +46,10 @@ public class TesteController {
 		return restaurantRepository.queryByShippingTaxBetween(intialFee, finalFee);
 	}
 	
-	
+	@GetMapping("/restaurant/unique-by-name")
+	public Optional<Restaurant> kitchenByName2(String name,Long id){
+		return restaurantRepository.findByFirstname(name, id);
+	}
 	
 	
 
