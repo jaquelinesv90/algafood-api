@@ -12,16 +12,25 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.algaworks.algafood.domain.model.Restaurant;
+import com.algaworks.algafood.domain.repository.RestaurantRepository;
+import com.algaworks.algafood.domain.repository.RestaurantRepositoryQueries;
+import com.algaworks.algafood.infrasctructure.repository.spec.RestaurantSpecs;
 
 @Repository
-public class RestaurantRepositoryImpl {
+public class RestaurantRepositoryImpl implements RestaurantRepositoryQueries {
 	
 	@PersistenceContext
 	private EntityManager manager;
+	
+	//@Lazy - referencia circular
+	@Autowired @Lazy
+	private RestaurantRepository repository;
 	
 	public List<Restaurant> find(String name, 
 			BigDecimal initialShippingFee, BigDecimal finalShippingFee){
@@ -74,6 +83,12 @@ public class RestaurantRepositoryImpl {
 		
 		TypedQuery<Restaurant> query = manager.createQuery(criteria);
 		return query.getResultList();	
+	}
+	
+	@Override
+	public List<Restaurant> findWithFreeShipping(String name){
+		return  repository.findAll(RestaurantSpecs.withFreeShipping().
+				and(RestaurantSpecs.withSimilarName(name)));
 	}
 	
 

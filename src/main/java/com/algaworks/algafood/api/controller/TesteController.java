@@ -13,8 +13,6 @@ import com.algaworks.algafood.domain.model.Kitchen;
 import com.algaworks.algafood.domain.model.Restaurant;
 import com.algaworks.algafood.domain.repository.KitchenRepository;
 import com.algaworks.algafood.domain.repository.RestaurantRepository;
-import com.algaworks.algafood.infrasctructure.repository.spec.RestaurantWithFreeShippingSpec;
-import com.algaworks.algafood.infrasctructure.repository.spec.RestaurantWithSimilarNameSpec;
 
 @RestController
 @RequestMapping("/teste")
@@ -55,9 +53,13 @@ public class TesteController {
 	
 	@GetMapping("/restaurant/free-shipping")
 	public List<Restaurant> restaurantWithFreeShipping(String name){
-		var withFreeShipping = new RestaurantWithFreeShippingSpec();
-		var withSimilarName = new RestaurantWithSimilarNameSpec(name);
-		
-		return restaurantRepository.findAll(withFreeShipping.and(withSimilarName));
+				
+		return restaurantRepository.findWithFreeShipping(name);
 	}
+	
+	@GetMapping("/restaurant/first")
+	public Optional<Restaurant> firstRestaurant(){
+		return restaurantRepository.fetchFirst();
+	}
+	
 }
