@@ -44,7 +44,7 @@ public class RestaurantController {
 	public ResponseEntity<Restaurant> findById(@PathVariable("restaurantId") Long id){
 		Optional<Restaurant> restaurant = repository.findById(id);
 		
-		if(restaurant.isEmpty()) {
+		if(restaurant.isPresent()) {
 			return ResponseEntity.ok(restaurant.get());
 		}
 		
@@ -71,7 +71,8 @@ public class RestaurantController {
 			
 			if(currentRestaurant != null) {
 				// o id aqui não será copiado, pois copia de um para o outro e aí copiaria o id nulo
-				BeanUtils.copyProperties(restaurant, currentRestaurant, "id");
+				BeanUtils.copyProperties(restaurant, currentRestaurant,
+						"id", "listPaymentWay", "address","registerDate");
 			
 				Restaurant savedRestaurant = service.save(currentRestaurant.get());
 				return ResponseEntity.ok(savedRestaurant);
