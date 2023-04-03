@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -65,5 +66,9 @@ public class Restaurant {
 			joinColumns = @JoinColumn(name = "restaurant_id"),
 			inverseJoinColumns = @JoinColumn(name = "payment_way_id"))
 	private List<PaymentWay> listPaymentWay = new ArrayList<>();
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="product_id")
+	private List<Product> product = new ArrayList<>();
 	
 }
