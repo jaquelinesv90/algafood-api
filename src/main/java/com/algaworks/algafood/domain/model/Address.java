@@ -2,6 +2,7 @@ package com.algaworks.algafood.domain.model;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -26,7 +27,7 @@ public class Address {
 	@Column(name = "neighborhood_address")
 	private String neighborhood;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "city_id_address")
 	private City city;
 	

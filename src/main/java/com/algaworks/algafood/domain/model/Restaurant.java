@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,6 +22,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -41,7 +43,10 @@ public class Restaurant {
 	@Column(name = "shipping_tax", nullable = false)
 	private BigDecimal shippingTax;
 	
-	@ManyToOne
+	// estamos ignorando a propriedade LazyInitializer, não serializa ela
+	@JsonIgnore
+	@JsonIgnoreProperties("hibernateLazyInitializer")
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "kitchen_id", nullable = false)
 	private Kitchen kitchen;
 	
@@ -61,6 +66,7 @@ public class Restaurant {
 	
 	
 	// o relacionamento é muitos-para-muitos e no name do joinTable é o nome da tabela intermediária
+	// essa tabela intermediária vai ser criada em tempo de execução
 	@ManyToMany
 	@JoinTable(name = "restaurant_payment_way",
 			joinColumns = @JoinColumn(name = "restaurant_id"),
@@ -68,7 +74,7 @@ public class Restaurant {
 	private List<PaymentWay> listPaymentWay = new ArrayList<>();
 	
 	@JsonIgnore
-	@OneToMany(mappedBy="product_id")
-	private List<Product> product = new ArrayList<>();
+	@OneToMany(mappedBy="restaurant")
+	private List<Product> products = new ArrayList<>();
 	
 }
