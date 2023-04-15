@@ -102,7 +102,7 @@ public class RestaurantController {
 
 	// reflectionUtils busca pra mim um campo(field) chamado nome, da classe Restaurant 
 	// esse campo field vai representar o nome
-	// isso é feito para atribuir o valor do field no objeto Restaurantdestino o valor da propriedade 
+	// isso é feito para atribuir o valor do field no objeto Restaurant destino o valor da propriedade 
 	private void merge(Map<String, Object> originField, Restaurant destinyRestaurant) {
 		
 		//essa conversão é feita pois, ao digitar um numero gerava erro de Integer to Bigdecimal na taxa frete
