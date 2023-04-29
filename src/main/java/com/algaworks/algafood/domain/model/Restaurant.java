@@ -56,12 +56,12 @@ public class Restaurant {
 	@JsonIgnore
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
-	private LocalDateTime registerDate;
+	private LocalDateTime createdDate;
 	
 	@JsonIgnore
 	@UpdateTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
-	private LocalDateTime updateDate;
+	private LocalDateTime lastUpdatedDate;
 	
 	// o relacionamento é muitos-para-muitos e no name do joinTable é o nome da tabela intermediária
 	// essa tabela intermediária vai ser criada em tempo de execução
@@ -75,5 +75,8 @@ public class Restaurant {
 	@JsonIgnore
 	@OneToMany(mappedBy="restaurant")
 	private List<Product> products = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "order")
+	private List<Order> orders;
 	
 }

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -45,5 +46,8 @@ public class User {
 				joinColumns=@JoinColumn(name="user_id"),
 				inverseJoinColumns = @JoinColumn(name="group_id"))
 	private List<Group> group = new ArrayList<>();
+	
+	@OneToMany(mappedBy="user")
+	private List<Order> orders;
 	
 }
