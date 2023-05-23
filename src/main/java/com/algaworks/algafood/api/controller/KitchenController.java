@@ -39,15 +39,8 @@ public class KitchenController {
 	}
 	
 	@GetMapping("/{kitchenId}")
-	public ResponseEntity<Kitchen> findById(@PathVariable("kitchenId") Long id) {
-		Optional<Kitchen> kitchen = repository.findById(id);
-		
-		if(kitchen.isPresent()) {
-			return ResponseEntity.ok(kitchen.get());
-		}
-		
-		//return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		return ResponseEntity.notFound().build();
+	public Kitchen findById(@PathVariable("kitchenId") Long id) {
+		return service.seekOrFail(id);
 	}
 	
 	@PostMapping
@@ -57,19 +50,15 @@ public class KitchenController {
 	}
 	
 	@PutMapping("/{kitchenId}")
-	public ResponseEntity<Kitchen> update(@PathVariable Long kitchenId, @RequestBody Kitchen kitchen){
-		Optional<Kitchen> currentKitchen = repository.findById(kitchenId);
+	public Kitchen update(@PathVariable Long kitchenId, @RequestBody Kitchen kitchen){
 		
-		if(currentKitchen.isPresent()) {
-			//currentKitchen.setName(kitchen.getName());
-			BeanUtils.copyProperties(kitchen, currentKitchen.get(), "id");
-			
-			Kitchen savedKitchen = service.save(currentKitchen.get());
-			return ResponseEntity.ok(savedKitchen);
-		}
-		return ResponseEntity.notFound().build();
+		Kitchen currentKitchen = service.seekOrFail(kitchenId);
+		
+		BeanUtils.copyProperties(kitchen, currentKitchen,"id");
+		
+		return service.save(currentKitchen);
 	}
-	
+	/*	
 	@DeleteMapping("/{kitchenId}")
 	public ResponseEntity<Kitchen> delete(@PathVariable Long kitchenId){
 		
@@ -84,6 +73,12 @@ public class KitchenController {
 		}catch(EntityInUseException e) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
+	} */
+	
+	@DeleteMapping("/{kitchenId}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void remover(@PathVariable Long kitchenId) {
+		service.remove(kitchenId);
 	}
 	
 }

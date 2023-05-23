@@ -1,13 +1,10 @@
 package com.algaworks.algafood.domain.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -27,7 +24,8 @@ public class PaymentWay {
 	@Column(nullable= false)
 	private String description;
 	
+	/*
 	@OneToMany(mappedBy="order")
-	private List<Order> orders; 
+	private List<Order> orders; */
 	
 }

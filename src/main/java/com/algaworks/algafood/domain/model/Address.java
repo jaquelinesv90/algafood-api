@@ -12,23 +12,25 @@ import lombok.Data;
 @Embeddable
 public class Address {
 
-	@Column(name= "zipcode_address")
+	@Column(name= "address_zip_code")
 	private String zipCode;
 	
-	@Column(name = "logradouro_address")
+	@Column(name = "address_logradouro")
 	private String logradouro;
 	
-	@Column(name = "number_address")
+	@Column(name = "address_number")
 	private String number;
 	
-	@Column(name = "complement_address")
+	@Column(name = "address_complement")
 	private String complement;
 	
-	@Column(name = "neighborhood_address")
+	@Column(name = "address_neighborhood")
 	private String neighborhood;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "city_id_address")
+	@JoinColumn(name = "address_city_id")
 	private City city;
+	
+	
 	
 }

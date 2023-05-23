@@ -45,11 +45,11 @@ public class Restaurant {
 	// estamos ignorando a propriedade LazyInitializer, não serializa ela
 	@JsonIgnore
 	//	@JsonIgnoreProperties("hibernateLazyInitializer")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne //(fetch = FetchType.LAZY)
 	@JoinColumn(name = "kitchen_id", nullable = false)
 	private Kitchen kitchen;
 	
-	@JsonIgnore
+	@JsonIgnore   
 	@Embedded
 	private Address address;
 	
@@ -76,7 +76,8 @@ public class Restaurant {
 	@OneToMany(mappedBy="restaurant")
 	private List<Product> products = new ArrayList<>();
 	
+	/*
 	@OneToMany(mappedBy = "order")
-	private List<Order> orders;
+	private List<Order> orders; */
 	
 }
