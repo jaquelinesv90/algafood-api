@@ -13,6 +13,8 @@ import com.algaworks.domain.exception.EntityNotFoundException;
 @Service
 public class StateRegisterService {
 	
+	private static final String MSG_STATE_NOT_FOUND = "There is no register for state with the code %d";
+	
 	@Autowired
 	private StateRepository repository;
 	
@@ -34,5 +36,11 @@ public class StateRegisterService {
 			throw new EntityInUseException(
 					String.format("State cannot be removed, it's been used", id));
 		}
+	}
+	
+	
+	public State seekOrFail(Long stateId) {
+		return repository.findById(stateId)
+				.orElseThrow(() -> new EntityNotFoundException(String.format(MSG_STATE_NOT_FOUND, stateId)));
 	}
 }

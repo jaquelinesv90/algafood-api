@@ -39,14 +39,8 @@ public class StateController {
 	}
 	
 	@GetMapping("/{stateId}")
-	public ResponseEntity<State> findById(@PathVariable("stateId") Long id) {
-		Optional<State> state = repository.findById(id);
-		
-		if(state.isEmpty() ) {
-			return ResponseEntity.ok(state.get());
-		}	
-		
-		return ResponseEntity.notFound().build();
+	public State findById(@PathVariable("stateId") Long id) {
+		return service.seekOrFail(id);
 	}
 	
 	@PostMapping

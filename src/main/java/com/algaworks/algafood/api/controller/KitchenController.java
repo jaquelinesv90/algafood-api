@@ -1,12 +1,10 @@
 package com.algaworks.algafood.api.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,8 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algafood.domain.model.Kitchen;
 import com.algaworks.algafood.domain.repository.KitchenRepository;
 import com.algaworks.algafood.domain.service.KitchenRegisterService;
-import com.algaworks.domain.exception.EntityInUseException;
-import com.algaworks.domain.exception.EntityNotFoundException;
 
 @RestController
 @RequestMapping(value = "/kitchens")
@@ -77,7 +73,7 @@ public class KitchenController {
 	
 	@DeleteMapping("/{kitchenId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void remover(@PathVariable Long kitchenId) {
+	public void delete(@PathVariable Long kitchenId) {
 		service.remove(kitchenId);
 	}
 	
