@@ -15,6 +15,8 @@ public class StateRegisterService {
 	
 	private static final String MSG_STATE_NOT_FOUND = "There is no register for state with the code %d";
 	
+	private static final String MSG_STATE_BEEN_USED = "State cannot be removed, it's been used";
+	
 	@Autowired
 	private StateRepository repository;
 	
@@ -30,11 +32,11 @@ public class StateRegisterService {
 			e.printStackTrace();
 			
 		}catch(EntityNotFoundException e) {
-			throw new EntityNotFoundException(String.format("There is no register for state with the code %d", id));
+			throw new EntityNotFoundException(String.format(MSG_STATE_NOT_FOUND,id));
 		
 		}catch(DataIntegrityViolationException e) {
 			throw new EntityInUseException(
-					String.format("State cannot be removed, it's been used", id));
+					String.format(MSG_STATE_BEEN_USED, id));
 		}
 	}
 	
