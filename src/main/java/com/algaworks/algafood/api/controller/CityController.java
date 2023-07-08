@@ -1,12 +1,10 @@
 package com.algaworks.algafood.api.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,9 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algafood.domain.model.City;
 import com.algaworks.algafood.domain.repository.CityRepository;
 import com.algaworks.algafood.domain.service.CityRegisterService;
-import com.algaworks.domain.exception.EntityInUseException;
-import com.algaworks.domain.exception.EntityNotFoundException;
+import com.algaworks.domain.exception.BusinessException;
+import com.algaworks.domain.exception.StateNotFoundException;
 
+// classe responsavel pelo resposta HTTP, corpo, status
 @RestController
 @RequestMapping(value = "/cities")
 public class CityController {
@@ -39,45 +38,39 @@ public class CityController {
 	}
 	
 	@GetMapping("/{cityId}")
-	public ResponseEntity<City> findById(@PathVariable("cityId") Long id){
-		Optional<City> city = repository.findById(id);
-		
-		if(city.isPresent()) {
-			return ResponseEntity.ok(city.get());
-		}
-		return ResponseEntity.notFound().build();
+	public City findById(@PathVariable("cityId") Long id){
+		return service.seekOrFail(id);
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public City add(@RequestBody City city) {
-		return service.save(city);
+		try {
+			return service.save(city);
+		} catch (StateNotFoundException e) {
+			throw new BusinessException(e.getMessage());
+		}
+		
 	}
 	
 	@PutMapping("/{cityId}")
-	public ResponseEntity<City> update(@PathVariable Long cityId, @RequestBody City city){
-		Optional<City> currentCity = repository.findById(cityId);
-		
-		if(currentCity.isEmpty()) {
-			BeanUtils.copyProperties(city, currentCity, "id");
+	public City update(@PathVariable Long cityId, @RequestBody City city){
+		try {
 			
-			City savedCity = service.save(currentCity.get());
-			return ResponseEntity.ok(savedCity);
+			City currentCity = service.seekOrFail(cityId);
+			
+			BeanUtils.copyProperties(city, currentCity,"id");
+			
+			return service.save(city);
+			
+		}catch(StateNotFoundException e){
+			throw new BusinessException(e.getMessage());
 		}
-		return ResponseEntity.notFound().build();
 	}
 	
 	@DeleteMapping("/{cityId}")
-	public ResponseEntity<City> delete(@PathVariable Long cityId){
-		try {
-			service.remove(cityId);
-			
-			return ResponseEntity.noContent().build();
-		}catch(EntityNotFoundException e) {
-			return ResponseEntity.notFound().build();
-			
-		}catch(EntityInUseException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
-		}
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void delete(@PathVariable Long cityId) {
+		service.remove(cityId);
 	}
 }

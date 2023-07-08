@@ -9,12 +9,12 @@ import com.algaworks.algafood.domain.model.Kitchen;
 import com.algaworks.algafood.domain.repository.KitchenRepository;
 import com.algaworks.domain.exception.EntityInUseException;
 import com.algaworks.domain.exception.EntityNotFoundException;
+import com.algaworks.domain.exception.KitchenNotFoundException;
 
 @Service
 public class KitchenRegisterService {
 	
 	private static final String MSG_KITCHEN_BEEN_USED = "kitchen code cannot be removed, it's been used";
-	private static final String MSG_KITCHEN_NOT_FOUND = "There is no register for kitchen with the code %d";
 	
 	@Autowired 
 	private KitchenRepository repository;
@@ -32,7 +32,7 @@ public class KitchenRegisterService {
 			e.printStackTrace();
 			
 		}catch(EntityNotFoundException e) {
-			throw new EntityNotFoundException(String.format(MSG_KITCHEN_NOT_FOUND, id));
+			throw new KitchenNotFoundException(id);
 			
 		}catch(DataIntegrityViolationException e) {
 			throw new EntityInUseException(
@@ -43,7 +43,7 @@ public class KitchenRegisterService {
 	
 	public Kitchen seekOrFail(Long kitchenId) {
 		return repository.findById(kitchenId)
-				.orElseThrow(() -> new EntityNotFoundException(String.format(MSG_KITCHEN_NOT_FOUND, kitchenId)));
+				.orElseThrow(() -> new KitchenNotFoundException(kitchenId));
 	}
 
 }

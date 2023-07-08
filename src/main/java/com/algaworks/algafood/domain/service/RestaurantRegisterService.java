@@ -8,6 +8,7 @@ import com.algaworks.algafood.domain.model.Restaurant;
 import com.algaworks.algafood.domain.repository.KitchenRepository;
 import com.algaworks.algafood.domain.repository.RestaurantRepository;
 import com.algaworks.domain.exception.EntityNotFoundException;
+import com.algaworks.domain.exception.RestaurantNotFoundException;
 
 @Service
 public class RestaurantRegisterService {
@@ -21,10 +22,14 @@ public class RestaurantRegisterService {
 	public Restaurant save(Restaurant restaurant) throws EntityNotFoundException {
 		Long kitchenId = restaurant.getKitchen().getId();
 		Kitchen kitchen = kitchenRepository.findById(kitchenId)
-				.orElseThrow(() ->  new EntityNotFoundException(
-						String.format("It doesn't exist kitchen with id %d", kitchenId)));
+				.orElseThrow(() ->  new RestaurantNotFoundException(kitchenId));
 		
 		restaurant.setKitchen(kitchen);
 		return restaurantRepository.save(restaurant);
+	}
+	
+	public Restaurant seekOrFail(Long restaurantId) {
+		return restaurantRepository.findById(restaurantId)
+				.orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
 	}
 }

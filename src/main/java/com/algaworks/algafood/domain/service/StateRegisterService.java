@@ -9,11 +9,10 @@ import com.algaworks.algafood.domain.model.State;
 import com.algaworks.algafood.domain.repository.StateRepository;
 import com.algaworks.domain.exception.EntityInUseException;
 import com.algaworks.domain.exception.EntityNotFoundException;
+import com.algaworks.domain.exception.StateNotFoundException;
 
 @Service
 public class StateRegisterService {
-	
-	private static final String MSG_STATE_NOT_FOUND = "There is no register for state with the code %d";
 	
 	private static final String MSG_STATE_BEEN_USED = "State cannot be removed, it's been used";
 	
@@ -32,7 +31,7 @@ public class StateRegisterService {
 			e.printStackTrace();
 			
 		}catch(EntityNotFoundException e) {
-			throw new EntityNotFoundException(String.format(MSG_STATE_NOT_FOUND,id));
+			throw new StateNotFoundException(id);
 		
 		}catch(DataIntegrityViolationException e) {
 			throw new EntityInUseException(
@@ -43,6 +42,6 @@ public class StateRegisterService {
 	
 	public State seekOrFail(Long stateId) {
 		return repository.findById(stateId)
-				.orElseThrow(() -> new EntityNotFoundException(String.format(MSG_STATE_NOT_FOUND, stateId)));
+				.orElseThrow(() -> new StateNotFoundException(stateId));
 	}
 }

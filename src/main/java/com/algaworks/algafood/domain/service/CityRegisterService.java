@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.domain.model.City;
 import com.algaworks.algafood.domain.repository.CityRepository;
+import com.algaworks.domain.exception.CityNotFoundException;
 
 @Service
 public class CityRegisterService {
@@ -20,4 +21,8 @@ public class CityRegisterService {
 		repository.deleteById(id);
 	}
 	
+	public City seekOrFail(Long cityId) {
+		return repository.findById(cityId)
+				.orElseThrow(() -> new CityNotFoundException(cityId));
+	}
 }
